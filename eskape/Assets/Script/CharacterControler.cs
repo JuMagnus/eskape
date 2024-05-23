@@ -1,32 +1,39 @@
 
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterControler : MonoBehaviour
 {
-    public float maxSpeed = 10f;
-    public float currentMoveSpeed = 0f;
-    public float targetMoveSpeed = 0f;
-    public float limits = 5f;
-    public float targetSpeed = 10f;
-    public float currentSpeed = 0f;
 
+
+    public float currentSpeed { get; private set; } = 0f;
+    public UnityEvent<float> onSetEnergy;
+    public UnityEvent<float> onSetMaxEnergy;
+
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float targetSpeed = 10f;
+    [SerializeField] private float targetDirectionSpeed = 10f;
+    [SerializeField] private float maxEnergy = 1000f;
+    [SerializeField] private float limits = 5f;
+
+    
     private Vector3 currentDirection = Vector3.zero;
+    private float currentDirectionSpeed = 0f;
     private Vector3 velocity = Vector3.zero;
     private float currentEnergy = 0f;
-    private float maxEnergy = 1000f;
-    [SerializeField] private EnergyBar energyBar;
+    
 
     void Start()
     {
         currentEnergy = maxEnergy;
-        energyBar.SetMaxEnergy(maxEnergy);
+        onSetMaxEnergy.Invoke(maxEnergy);  
         targetSpeed = maxSpeed;
     }
 
     void Update()
     {
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);
-        currentMoveSpeed = targetMoveSpeed * (currentSpeed / maxSpeed);
+        currentDirectionSpeed = targetDirectionSpeed * (currentSpeed / maxSpeed);
 
         Vector3 targetDirection = Vector3.zero;
         if (Input.GetKey(KeyCode.Q))
@@ -50,7 +57,7 @@ public class CharacterControler : MonoBehaviour
         }
 
         currentDirection = Vector3.SmoothDamp(currentDirection, targetDirection, ref velocity, .2f);
-        transform.Translate(currentDirection * currentMoveSpeed * Time.deltaTime);
+        transform.Translate(currentDirection * currentDirectionSpeed * Time.deltaTime);
 
         
 
@@ -65,7 +72,7 @@ public class CharacterControler : MonoBehaviour
     public void EnergyDepletion(float amount)
     {
         currentEnergy -= amount;
-        energyBar.SetEnergy(currentEnergy);
+        onSetEnergy.Invoke(currentEnergy);
         if (currentEnergy <= 0)
         {
             targetSpeed = 0;
@@ -76,7 +83,7 @@ public class CharacterControler : MonoBehaviour
     public void AddEnergy(float amount)
     {
         currentEnergy += amount;
-        energyBar.SetEnergy(currentEnergy);
+        onSetEnergy.Invoke(currentEnergy); ;
     }
 
 

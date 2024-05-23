@@ -1695,13 +1695,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccad371dd794f92489ddc5ffc22e7a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSetEnergy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 37655021}
+        m_TargetAssemblyTypeName: EnergyBar, Assembly-CSharp
+        m_MethodName: SetEnergy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onSetMaxEnergy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 37655021}
+        m_TargetAssemblyTypeName: EnergyBar, Assembly-CSharp
+        m_MethodName: SetMaxEnergy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   maxSpeed: 10
-  currentMoveSpeed: 0
-  targetMoveSpeed: 5
-  limits: 4.3
   targetSpeed: 10
-  currentSpeed: 0
-  energyBar: {fileID: 37655021}
+  targetDirectionSpeed: 10
+  maxEnergy: 1000
+  limits: 4.3
 --- !u!135 &4544942798974448281
 SphereCollider:
   m_ObjectHideFlags: 0
